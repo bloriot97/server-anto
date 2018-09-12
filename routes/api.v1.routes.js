@@ -1,7 +1,7 @@
 var express = require('express'),
     router = express.Router();
 
-var config = require('../config/config.js');
+var config = require('config');
 
 require("./user.routes.js")(router);
 require("./message.routes.js")(router);

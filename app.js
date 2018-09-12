@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 
 var api = require("./routes/api.v1.routes");
 
-var config = require('./config/config.js');
+var config = require('config');
 //var expressJWT = require('express-jwt');
 
 //var cors = require('cors')
@@ -43,3 +43,6 @@ app.use(function (err, req, res, next) {
 var server = app.listen(3000, function () {
     console.log("App running on port.", server.address().port);
 });
+
+
+module.exports = app; // for testing
