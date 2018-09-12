@@ -1,14 +1,13 @@
-var express = require('express'),
-    router = express.Router();
+const router = require('express').Router();
 
-var config = require('../config/config.js');
+// const config = require('config');
 
-require("./user.routes.js")(router);
-require("./message.routes.js")(router);
+require('./user.routes.js')(router);
+require('./message.routes.js')(router);
 
 
-router.get("/", function(req, res) {
-  res.status(200).send("API v1")
+router.get('/', (req, res) => {
+  res.status(200).send('API v1');
 });
 
 /*

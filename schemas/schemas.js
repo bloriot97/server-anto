@@ -1,24 +1,24 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
 
-var schemas = {
-    user: {
-        username: { type: String, required: true },
-        password: String,
-        email: String
+const schemas = {
+  user: {
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+    email: String,
+  },
+  message: {
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    type: String,
+    content: { type: String, required: true },
+    animation: String,
+    sent_at: {
+      type: Date,
+      default: Date.now,
     },
-    message: {
-      from : String,
-      to : String,
-      type : String,
-      content : String,
-      animation : String,
-      sent_at : {
-          type: Date,
-          default: Date.now
-      },
-      read_at : Date
-    }
-}
+    read_at: Date,
+  },
+};
 
 module.exports = schemas;
