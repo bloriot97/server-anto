@@ -11,11 +11,9 @@ exports.create = (req, res) => {
 
   user.save()
     .then((data) => {
-      res.send(data);
+      res.send({ message: 'User successfully added!', user: data });
     }).catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while creating the Note.',
-      });
+      res.status(400).send(err);
     });
 };
 
@@ -24,7 +22,7 @@ exports.findAll = (req, res) => {
     .then((users) => {
       res.send(users);
     }).catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: err.message || 'Some error occurred while retrieving users.',
       });
     });
@@ -66,7 +64,7 @@ exports.update = (req, res) => {
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      res.send(user);
+      res.send({ message: 'User updated!', user });
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
         res.status(404).send({

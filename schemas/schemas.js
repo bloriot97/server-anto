@@ -4,7 +4,7 @@
 const schemas = {
   user: {
     username: { type: String, required: true },
-    password: String,
+    password: { type: String, required: true },
     email: String,
   },
   message: {
