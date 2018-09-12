@@ -9,6 +9,7 @@
   "author": "bloriot97@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "mongoose": "^5.2.9"
   }
 }
