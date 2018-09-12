@@ -8,10 +8,10 @@ const schemas = {
     email: String,
   },
   message: {
-    from: String,
-    to: String,
+    from: { type: String, required: true },
+    to: { type: String, required: true },
     type: String,
-    content: String,
+    content: { type: String, required: true },
     animation: String,
     sent_at: {
       type: Date,

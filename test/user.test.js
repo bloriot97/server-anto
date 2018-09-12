@@ -27,7 +27,7 @@ describe('Users', () => {
   /*
   * Test the /GET route
   */
-  describe('/GET /users', () => {
+  describe('/GET users', () => {
     it('should GET all the users', (done) => {
       chai.request(server)
         .get('/api/v1/users')
@@ -43,7 +43,7 @@ describe('Users', () => {
   /*
   * Test the /POST route
   */
-  describe('/POST userx', () => {
+  describe('/POST user', () => {
     it('should not POST a user without username field', (done) => {
       const user = {
         email: 'benji@gmail.com',
@@ -76,9 +76,9 @@ describe('Users', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message').eql('User successfully added!');
-          res.body.user.should.have.property('username');
-          res.body.user.should.have.property('password');
-          res.body.user.should.have.property('email');
+          res.body.data.should.have.property('username');
+          res.body.data.should.have.property('password');
+          res.body.data.should.have.property('email');
           done();
         });
     });
@@ -87,7 +87,7 @@ describe('Users', () => {
   /*
   * Test the /GET route
   */
-  describe('/GET/:id', () => {
+  describe('/GET/:id user', () => {
     it('should GET the user by id', (done) => {
       const user = new User({
         username: 'Benjamin',
@@ -126,7 +126,7 @@ describe('Users', () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('message').eql('User updated!');
-            res.body.user.should.have.property('password').eql('new');
+            res.body.data.should.have.property('password').eql('new');
             done();
           });
       });

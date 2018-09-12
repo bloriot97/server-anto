@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 
   user.save()
     .then((data) => {
-      res.send({ message: 'User successfully added!', user: data });
+      res.send({ message: 'User successfully added!', data });
     }).catch((err) => {
       res.status(400).send(err);
     });
@@ -64,7 +64,7 @@ exports.update = (req, res) => {
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      res.send({ message: 'User updated!', user });
+      res.send({ message: 'User updated!', data: user });
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
         res.status(404).send({
