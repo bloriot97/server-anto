@@ -6,7 +6,8 @@ process.env.NODE_ENV = 'test';
 // Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-// const should = chai.should();
+
+chai.should();
 
 const User = require('../models/user.model');
 const server = require('../app');

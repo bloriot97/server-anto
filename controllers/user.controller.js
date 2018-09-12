@@ -1,15 +1,15 @@
 const User = require('../models/user.model.js');
 
 exports.create = (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({
+  if (req.body === undefined) {
+    res.status(400).send({
       message: 'There is no content',
     });
   }
 
   const user = new User(req.body);
 
-  return user.save()
+  user.save()
     .then((data) => {
       res.send(data);
     }).catch((err) => {
@@ -34,18 +34,18 @@ exports.findOne = (req, res) => {
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({
+        res.status(404).send({
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      return res.send(user);
+      res.send(user);
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
-        return res.status(404).send({
+        res.status(404).send({
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      return res.status(500).send({
+      res.status(500).send({
         message: `Error retrieving user with id ${req.params.userId}`,
       });
     });
@@ -62,18 +62,18 @@ exports.update = (req, res) => {
   User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({
+        res.status(404).send({
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      return res.send(user);
+      res.send(user);
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
-        return res.status(404).send({
+        res.status(404).send({
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      return res.status(500).send({
+      res.status(500).send({
         message: `Error updating user with id ${req.params.userId}`,
       });
     });

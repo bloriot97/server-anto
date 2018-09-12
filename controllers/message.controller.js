@@ -2,14 +2,14 @@ const Message = require('../models/message.model.js');
 
 exports.create = (req, res) => {
   if (!req.body) {
-    return res.status(400).send({
+    res.status(400).send({
       message: 'There is no content',
     });
   }
 
   const message = new Message(req.body);
 
-  return message.save()
+  message.save()
     .then((data) => {
       res.send(data);
     }).catch((err) => {
