@@ -1,14 +1,14 @@
 const express = require('express');
 // const path = require('path');
 const bodyParser = require('body-parser');
-// const config = require('config');
-const app = express();
+const config = require('config');
+const expressJWT = require('express-jwt');
 
+const app = express();
 
 const api = require('./routes/api.v1.routes');
 const db = require('./db/db');
 
-// var expressJWT = require('express-jwt');
 
 // var cors = require('cors')
 
@@ -23,12 +23,11 @@ db.connect();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/*
-// authentifaication bar web tocken
-app.use('/api/v1', expressJWT({secret: config.jwt.secret }).unless({path: ['/api/v1/auth']}), api);
-*/
 
-app.use('/api/v1', api);
+// authentifaication bar web tocken
+app.use('/api/v1', expressJWT({ secret: config.jwt.secret }).unless({ path: ['/api/v1/auth/login'] }), api);
+
+// app.use('/api/v1', api);
 
 app.use(express.static('public'));
 

@@ -1,4 +1,5 @@
 const User = require('../models/user.model.js');
+const Auth = require('../auth/auth');
 
 exports.create = (req, res) => {
   if (req.body === undefined) {
@@ -73,6 +74,33 @@ exports.update = (req, res) => {
       }
       res.status(500).send({
         message: `Error updating user with id ${req.params.userId}`,
+      });
+    });
+};
+
+exports.login = (req, res) => {
+  const { username, password } = req.body;
+  console.log('user');
+  User.findOne({ username })
+    .then((user) => {
+      console.log(user);
+      if (!user) {
+        res.status(500).json({
+          status: 'error',
+        });
+      }
+      if (user.password === password) {
+        const profile = { username: user.username, email: user.email };
+        const token = Auth.encodeToken(profile);
+        res.json({ status: 'success', token });
+      } else {
+        res.status(500).json({
+          status: 'error',
+        });
+      }
+    }).catch(() => {
+      res.status(500).json({
+        status: 'error',
       });
     });
 };

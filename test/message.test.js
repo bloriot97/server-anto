@@ -2,18 +2,22 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const config = require('config');
 
 chai.should();
 
+const Auth = require('../auth/auth');
 const Message = require('../models/message.model');
 const server = require('../app');
 
+let token = '';
 
 chai.use(chaiHttp);
 
 
-describe('Messages', () => {
+describe('User messages', () => {
   beforeEach((done) => {
+    token = Auth.encodeToken(config.users.benjamin);
     Message.remove({}, (err) => {
       if (!err) {
         done();
@@ -96,6 +100,7 @@ describe('Messages', () => {
       chai.request(server)
         .post('/api/v1/messages')
         .send(message)
+        .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');

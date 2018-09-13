@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+
 // const config = require('config');
 
 require('./user.routes.js')(router);
@@ -9,6 +10,7 @@ require('./message.routes.js')(router);
 router.get('/', (req, res) => {
   res.status(200).send('API v1');
 });
+
 
 /*
 router.get("/sensors", getOffsetLimit, function(req, res) {
