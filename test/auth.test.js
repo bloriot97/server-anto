@@ -14,7 +14,7 @@ const server = require('../app');
 chai.use(chaiHttp);
 
 
-describe('Auth', () => {
+describe('Auth  🔑', () => {
   beforeEach((done) => { // Before each test we empty the database
     User.remove({}, (err) => {
       if (!err) {
@@ -60,6 +60,49 @@ describe('Auth', () => {
             done();
           });
       });
+    });
+  });
+  /*
+  * Test the /POST route
+  */
+  describe('/POST /auth/signin', () => {
+    it('should not POST a user without username field', (done) => {
+      const user = {
+        email: 'benji@gmail.com',
+        password: 'sgdgf',
+      };
+      chai.request(server)
+        .post('/api/v1/auth/signin')
+        .send(user)
+        .end((err, res) => {
+          // console.log(res);
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('errors');
+          res.body.errors.should.have.property('username');
+          res.body.errors.username.should.have.property('kind').eql('required');
+          done();
+        });
+    });
+
+    it('should POST a user', (done) => {
+      const user = {
+        username: 'benjamin',
+        email: 'benji@gmail.com',
+        password: 'sgdgf',
+      };
+      chai.request(server)
+        .post('/api/v1/auth/signin')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('User successfully added!');
+          res.body.data.should.have.property('username');
+          res.body.data.should.have.property('password');
+          res.body.data.should.have.property('email');
+          done();
+        });
     });
   });
 });

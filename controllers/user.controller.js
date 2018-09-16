@@ -29,8 +29,29 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findMe = (req, res) => {
+  User.findOne({ username: req.user.username }, Auth.getFilter(User, req.user, { __v: 0 }))
+    .then((user) => {
+      if (!user) {
+        res.status(404).send({
+          message: `User not found with id ${req.params.userId}`,
+        });
+      }
+      res.send(user);
+    }).catch((err) => {
+      if (err.kind === 'ObjectId') {
+        res.status(404).send({
+          message: `User not found with id ${req.params.userId}`,
+        });
+      }
+      res.status(500).send({
+        message: `Error retrieving user with id ${req.params.userId}`,
+      });
+    });
+};
+
 exports.findOne = (req, res) => {
-  User.findById(req.params.userId)
+  User.findById(req.params.userId, Auth.getFilter(User, req.user, { __v: 0 }))
     .then((user) => {
       if (!user) {
         res.status(404).send({
@@ -57,6 +78,9 @@ exports.update = (req, res) => {
     });
   }
 
+  if (req.body.username) {
+    res.status(403).json({ status: 'error', msg: 'You cannot change the username', url: req.url });
+  }
 
   User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
     .then((user) => {
@@ -80,10 +104,8 @@ exports.update = (req, res) => {
 
 exports.login = (req, res) => {
   const { username, password } = req.body;
-  console.log('user');
   User.findOne({ username })
     .then((user) => {
-      console.log(user);
       if (!user) {
         res.status(500).json({
           status: 'error',

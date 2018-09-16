@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "start-dev": "NODE_ENV=dev nodemon app.js",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000 --exit"
   },
   "author": "bloriot97@gmail.com",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "mongoose": "^5.2.14"
   },

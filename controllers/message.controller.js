@@ -7,6 +7,7 @@ exports.create = (req, res) => {
     });
   }
 
+  req.body.from = req.user.username;
   const message = new Message(req.body);
 
   message.save()
@@ -28,9 +29,19 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.getSentMessages = (req, res) => {
+  Message.find({ from: req.user.username }, { __v: 0 })
+    .then((users) => {
+      res.send(users);
+    }).catch((err) => {
+      res.status(400).send({
+        message: err.message || 'Some error occurred while retrieving messages.',
+      });
+    });
+};
 
-exports.getInboxByUserName = (req, res) => {
-  Message.find({ to: req.params.userName }, { __v: 0 })
+exports.getInbox = (req, res) => {
+  Message.find({ to: req.user.username, read_at: { $exists: false } }, { __v: 0 })
     .then((messages) => {
       res.send(messages);
     }).catch((err) => {
