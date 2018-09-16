@@ -51,6 +51,30 @@ exports.getInbox = (req, res) => {
     });
 };
 
+exports.getAndReadMessage = (req, res) => {
+  Message.findOneAndUpdate(
+    { _id: req.params.messageId, to: req.user.username },
+    { read_at: new Date() },
+    { new: true },
+  )
+    .then((message) => {
+      if (!message) {
+        res.status(401).json({ status: 'error', msg: 'Jeton invalide', url: req.url });
+      } else {
+        res.send(message);
+      }
+    }).catch((err) => {
+      if (err.kind === 'ObjectId') {
+        res.status(404).send({
+          message: `Message not found with id ${req.params.messageId}`,
+        });
+      }
+      res.status(500).send({
+        message: `Message updating user with id ${req.params.messageId}`,
+      });
+    });
+};
+
 /*
 exports.findAll = (req, res) => {
 

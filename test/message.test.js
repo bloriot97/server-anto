@@ -181,6 +181,45 @@ describe('Messages ✉️', () => {
             });
         });
       });
+      it('should GET and mark the message as read', (done) => {
+        const message = new Message({
+          from: 'someone',
+          to: connectedUser.username,
+          content: 'The message',
+          animation: 'rainbow',
+        });
+        message.save((messageErr, messageRes) => {
+          chai.request(server)
+            .get(`/api/v1/messages/read/${messageRes.id}`)
+            .set('authorization', `Bearer ${token}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('read_at');
+              res.body.should.have.property('content');
+              done();
+            });
+        });
+      });
+      it('should not GET read a message not meant for him', (done) => {
+        const message = new Message({
+          from: 'someone',
+          to: 'someoneElse',
+          content: 'The message',
+          animation: 'rainbow',
+        });
+        message.save((messageErr, messageRes) => {
+          chai.request(server)
+            .get(`/api/v1/messages/read/${messageRes.id}`)
+            .set('authorization', `Bearer ${token}`)
+            .end((err, res) => {
+              res.should.have.status(401);
+              res.body.should.be.a('object');
+              res.body.should.have.property('status').eql('error');
+              done();
+            });
+        });
+      });
     });
   });
 });
