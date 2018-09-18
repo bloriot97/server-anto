@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('config');
 const expressJWT = require('express-jwt');
+const cors = require('cors');
+
 
 const app = express();
 
@@ -18,14 +20,14 @@ db.connect();
 
 
 // authoriser le cross origine pour communiquer avec l'app
-// app.use(cors())
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // authentifaication bar web tocken
-app.use('/api/v1', expressJWT({ secret: config.jwt.secret }).unless({ path: ['/api/v1/auth/login', '/api/v1/auth/signin'] }), api);
+app.use('/api/v1', expressJWT({ secret: config.jwt.secret }).unless({ path: ['/api/v1/auth/login', '/api/v1/auth/signup'] }), api);
 
 // app.use('/api/v1', api);
 

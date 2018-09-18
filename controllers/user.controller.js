@@ -107,16 +107,16 @@ exports.login = (req, res) => {
   User.findOne({ username })
     .then((user) => {
       if (!user) {
-        res.status(500).json({
+        res.status(401).json({
           status: 'error',
+          info: 'user-not-found',
         });
-      }
-      if (user.password === password) {
+      } else if (user.password === password) {
         const profile = { username: user.username, email: user.email };
         const token = Auth.encodeToken(profile);
         res.json({ status: 'success', token });
       } else {
-        res.status(500).json({
+        res.status(401).json({
           status: 'error',
         });
       }

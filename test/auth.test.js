@@ -65,14 +65,14 @@ describe('Auth  🔑', () => {
   /*
   * Test the /POST route
   */
-  describe('/POST /auth/signin', () => {
+  describe('/POST /auth/signup', () => {
     it('should not POST a user without username field', (done) => {
       const user = {
         email: 'benji@gmail.com',
         password: 'sgdgf',
       };
       chai.request(server)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/auth/signup')
         .send(user)
         .end((err, res) => {
           // console.log(res);
@@ -92,7 +92,7 @@ describe('Auth  🔑', () => {
         password: 'sgdgf',
       };
       chai.request(server)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/auth/signup')
         .send(user)
         .end((err, res) => {
           res.should.have.status(200);
