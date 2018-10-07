@@ -19,7 +19,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  User.find({}, { __v: 0 })
+  User.find({},  Auth.getFilter(User, req.user, { __v: 0 }))
     .then((users) => {
       res.send(users);
     }).catch((err) => {

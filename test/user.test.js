@@ -39,6 +39,20 @@ describe('Users 👥', () => {
     * Test the /GET route
     */
     describe('/GET users', () => {
+      it('should GET the users', (done) => {
+        const user = new User(connectedUser);
+        user.save(() => {
+          chai.request(server)
+            .get('/api/v1/users')
+            .set('authorization', `Bearer ${token}`)
+            .end((err, res) => {
+              console.log(res.body)
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              done();
+            });
+        });
+      });
       it('should GET the user\'s information', (done) => {
         const user = new User(connectedUser);
         user.save(() => {
@@ -55,35 +69,36 @@ describe('Users 👥', () => {
             });
         });
       });
+    });
 
-      /*
-      * Test the /GET route
-      */
-      describe('/GET/:id user', () => {
-        it('should GET the user by id', (done) => {
-          const user = new User({
-            username: 'Benjamin',
-            email: 'benji@gmail.com',
-            password: 'sgdgf',
-          });
-          user.save((userSaveErr, userSaveRes) => {
-            chai.request(server)
-              .get(`/api/v1/users/${userSaveRes.id}`)
-              .send(userSaveRes)
-              .set('authorization', `Bearer ${token}`)
-              .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.a('object');
-                res.body.should.have.property('username');
-                res.body.should.have.property('email');
-                res.body.should.not.have.property('password');
-                res.body.should.have.property('_id').eql(userSaveRes.id);
-                done();
-              });
-          });
+    /*
+    * Test the /GET route
+    */
+    describe('/GET/:id user', () => {
+      it('should GET the user by id', (done) => {
+        const user = new User({
+          username: 'Benjamin',
+          email: 'benji@gmail.com',
+          password: 'sgdgf',
+        });
+        user.save((userSaveErr, userSaveRes) => {
+          chai.request(server)
+            .get(`/api/v1/users/${userSaveRes.id}`)
+            .send(userSaveRes)
+            .set('authorization', `Bearer ${token}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('username');
+              res.body.should.have.property('email');
+              res.body.should.not.have.property('password');
+              res.body.should.have.property('_id').eql(userSaveRes.id);
+              done();
+            });
         });
       });
     });
+
     describe('/PUT/:id', () => {
       it('should not UPDATE a user given the id', (done) => {
         const user = new User({
