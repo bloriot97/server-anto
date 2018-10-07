@@ -7,5 +7,19 @@
     "limit": 10,
     "max_limit": 50
   },
+  "users": {
+    "benjamin": {
+      "username": "benjamin",
+      "password": "mdp",
+      "email": "some@email.com",
+      "creditential": "user"
+    },
+    "admin": {
+      "username": "admin",
+      "password": "adminmdp",
+      "email": "admin@email.com",
+      "creditential": "admin"
+    }
+  },
   "mongodb": "mongodb+srv://admin:<PASSWORD>@cluster0-p0csn.mongodb.net/test?retryWrites=true"
 }
