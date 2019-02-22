@@ -1,0 +1,25 @@
+{
+  "jwt": {
+    "expiresInSeconds" : 3600,
+    "secret" : "WK0R3v3j0Q"
+  },
+  "query": {
+    "limit": 10,
+    "max_limit": 50
+  },
+  "users": {
+    "benjamin": {
+      "username": "benjamin",
+      "password": "mdp",
+      "email": "some@email.com",
+      "creditential": "user"
+    },
+    "admin": {
+      "username": "admin",
+      "password": "adminmdp",
+      "email": "admin@email.com",
+      "creditential": "admin"
+    }
+  },
+  "mongodb": "mongodb+srv://admin:7suKUq10qh8wM6M6@cluster0-p0csn.mongodb.net/prod?retryWrites=true"
+}
