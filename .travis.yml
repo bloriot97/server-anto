@@ -1,8 +1,16 @@
 language: node_js
 node_js: '11'
-services: mongodb
+services:
+  - mongodb
+  - docker
 env:
   global:
     - NODE_ENV=travis
 before_script:
   - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+jobs:
+  include:
+    - stage: test
+      script: ./.travis/travis-run.sh
+    - stage: deploy
+      script: ./.travis/travis-deploy.sh
