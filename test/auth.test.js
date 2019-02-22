@@ -98,7 +98,7 @@ describe('Auth  🔑', () => {
           res.body.should.have.property('message').eql('User successfully added!');
           res.body.data.should.have.property('username');
           res.body.data.should.have.property('password');
-          res.body.data.should.have.property('emailj');
+          res.body.data.should.have.property('email');
           done();
         });
     });
