@@ -1,5 +1,8 @@
 language: node_js
 node_js: '11'
 services: mongodb
+env:
+  global:
+    - NODE_ENV=travis
 before_script:
   - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
