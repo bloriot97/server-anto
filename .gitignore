@@ -74,3 +74,6 @@ typings/
 
 config/dev.json
 config/test.json
+
+# intelliJ
+.idea/

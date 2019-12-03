@@ -30,7 +30,13 @@ exports.findAll = (req, res) => {
 };
 
 exports.getSentMessages = (req, res) => {
-  Message.find({ from: req.user.username }, { __v: 0 })
+  const perPages = 20;
+  const page = req.body.page || 0;
+  Message.find(
+    { from: req.user.username },
+    { __v: 0 },
+    { skip: page * perPages, limit: perPages, sort: { sent_at: -1 } },
+  )
     .then((users) => {
       res.send(users);
     }).catch((err) => {
